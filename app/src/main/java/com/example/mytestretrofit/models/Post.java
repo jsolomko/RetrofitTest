@@ -1,6 +1,9 @@
 package com.example.mytestretrofit.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,10 +11,12 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "posts_table")
 public class Post {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
     private int userId;
     private String title;
     private String body;
+
 
     public Post(Integer id, Integer userId, String title, String body) {
         this.id = id;
@@ -19,6 +24,7 @@ public class Post {
         this.title = title;
         this.body = body;
     }
+
 
     public Integer getId() {
         return id;
