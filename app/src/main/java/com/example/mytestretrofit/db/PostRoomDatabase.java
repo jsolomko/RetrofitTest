@@ -7,12 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.mytestretrofit.api.PostDAO;
-import com.example.mytestretrofit.models.Post;
+import com.example.mytestretrofit.models.Patients;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Post.class}, version = 1, exportSchema = false)
+@Database(entities = {Patients.class}, version = 1, exportSchema = false)
 public abstract class PostRoomDatabase extends RoomDatabase {
     public abstract PostDAO postDAO();
 

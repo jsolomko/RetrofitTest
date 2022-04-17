@@ -1,7 +1,8 @@
 package com.example.mytestretrofit.api;
 
 import com.example.mytestretrofit.models.LoginResponse;
-import com.example.mytestretrofit.models.Post;
+import com.example.mytestretrofit.models.MedicalTreatments;
+import com.example.mytestretrofit.models.Patients;
 import com.example.mytestretrofit.models.UserAuth;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -20,15 +22,20 @@ import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("posts")
-    Call<List<Post>> getUser();
+    @GET("patients?sort=id,DESC")
+    Call<List<Patients>> getUser();
 
-    @POST("posts")
-    Call<Post> createPost(@Body Post post);
+    @GET("medicaltreatment")
+    Call<List<MedicalTreatments>> getMedicalTreatments();
+
+    @POST("patients")
+    Call<Patients> createPost(@Body Patients post);
 
     @POST("auth/login")
     Call<LoginResponse> login(@Body UserAuth userAuth);
 
+    @DELETE("patients/{id}")
+    Call<Void> delete(@Path("id")int id);
 
     @FormUrlEncoded
     @POST("auth/login")
@@ -43,10 +50,10 @@ public interface JsonPlaceHolderApi {
     Call<UserAuth> authMap(@FieldMap Map<String, String> fields);
 
     @PUT("posts/{id}")
-    Call<Post> putPost(@Path("id") int id, @Body Post post);
+    Call<Patients> putPost(@Path("id") int id, @Body Patients post);
 
     @PATCH("posts/{id}")
-    Call<Post> patchPost(@Path("id") int id, @Body Post post);
+    Call<Patients> patchPost(@Path("id") int id, @Body Patients post);
 
 
 }

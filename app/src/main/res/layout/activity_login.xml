@@ -10,48 +10,66 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN ACTIVITY"
+        android:text="Gargona Mobile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165" />
+        app:layout_constraintVertical_bias="0.165"
+        android:textSize="30dp"/>
+
+    <!--    <TextView-->
+<!--        android:id="@+id/tv_Login"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="236dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ed_Password"-->
+<!--        app:layout_constraintVertical_bias="0.913" />-->
 
     <TextView
-        android:id="@+id/tv_Login"
-        android:layout_width="0dp"
+        android:id="@+id/logIn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="236dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_Password"
-        app:layout_constraintVertical_bias="0.913" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Авторизация"
+        app:layout_constraintBottom_toTopOf="@+id/ed_Name"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.909" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
         android:layout_marginBottom="44dp"
         android:onClick="initLogin"
-        android:text="Button"
+        android:text="Войти"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_Login"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="@+id/tv_Login" />
+        app:layout_constraintEnd_toEndOf="@+id/ed_Password"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="@+id/tv_Login"
+        app:layout_constraintTop_toBottomOf="@+id/ed_Password"
+        app:layout_constraintVertical_bias="0.501" />
 
     <EditText
         android:id="@+id/ed_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="128dp"
         android:ems="10"
         android:hint="Введите имя"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -67,4 +85,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/ed_Name"
         app:layout_constraintTop_toBottomOf="@+id/ed_Name" />
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_Main"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="19dp"-->
+<!--        android:layout_marginBottom="44dp"-->
+<!--        android:onClick="btn_get_patients"-->
+<!--        android:text="GET PATIENTS"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.317"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button2" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

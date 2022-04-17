@@ -56,4 +56,10 @@ dependencies {
     // optional - Paging 3 Integration
     implementation "androidx.room:room-paging:2.5.0-alpha01"
 
+
+    implementation("com.mikepenz:materialdrawer:6.0.8@aar") {
+        transitive = true
+    }
+
+
 }

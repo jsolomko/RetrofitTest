@@ -2,27 +2,41 @@ package com.example.mytestretrofit.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import com.example.mytestretrofit.R;
 import com.example.mytestretrofit.adapters.PostAdapter;
 import com.example.mytestretrofit.api.JsonPlaceHolderApi;
-import com.example.mytestretrofit.models.LoginResponse;
-import com.example.mytestretrofit.models.Post;
-import com.example.mytestretrofit.models.SessionManager;
-import com.example.mytestretrofit.models.UserAuth;
+import com.example.mytestretrofit.models.MedicalTreatments;
+import com.example.mytestretrofit.models.Patients;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -34,17 +48,29 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     private RecyclerView recyclerView;
+    Toolbar toolbar;
+    PostAdapter adapter;
+
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        initDrawer();
+
         recyclerView = findViewById(R.id.rv_Main);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        floatingActionButton = findViewById(R.id.fab);
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -58,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         Request originalReq = chain.request();
                         Request newReq = originalReq.newBuilder()
                                 .header("Interceptor-Header", "myHeaders")
-                                .header("Content-Type", "application/json")
+                                .header("Authorization", "Bearer " + sharedPreferences.getString("TOKEN", "fsd"))
                                 .build();
                         return chain.proceed(newReq);
                     }
@@ -74,116 +100,114 @@ public class MainActivity extends AppCompatActivity {
                 .client(okHttpClient)
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-//      getPost();
-//        updatePost();
-//        login();
+        getPost();
 
-    }
-
-    void updatePost() {
-        Post post = new Post(4, 1, "titte", "body");
-        Call<Post> call = jsonPlaceHolderApi.putPost(1, post);
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if (!response.isSuccessful()) {
-                }
-                Post users = response.body();
-                List<Post> list = new ArrayList<>();
-                list.add(users);
-                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
-                    @Override
-                    public void onPostClick(Post post, int position) {
-                        Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
-                        i.putExtra("id", post.getId());
-                        i.putExtra("userId", post.getUserId());
-                        i.putExtra("title", post.getTitle());
-                        i.putExtra("body", post.getBody());
-                        startActivity(i);
-                    }
-                };
-
-                PostAdapter adapter = new PostAdapter(list, postClickListener);
-                recyclerView.setAdapter(adapter);
-            }
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewPatientActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
     void getPost() {
-        Call<List<Post>> call = jsonPlaceHolderApi.getUser();
-        call.enqueue(new Callback<List<Post>>() {
+//        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
+        Call<List<Patients>> call = jsonPlaceHolderApi.getUser();
+        call.enqueue(new Callback<List<Patients>>() {
             @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+            public void onResponse(Call<List<Patients>> call, Response<List<Patients>> response) {
                 if (!response.isSuccessful()) {
                 }
-                List<Post> users = response.body();
+                List<Patients> users = response.body();
 
                 PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
                     @Override
-                    public void onPostClick(Post post, int position) {
+                    public void onPostClick(Patients post, int position) {
                         Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
                         i.putExtra("id", post.getId());
-                        i.putExtra("userId", post.getUserId());
-                        i.putExtra("title", post.getTitle());
-                        i.putExtra("body", post.getBody());
+                        i.putExtra("name", post.getName());
+                        i.putExtra("patronymic", post.getPatronymic());
+                        i.putExtra("surname", post.getSurname());
+                        i.putExtra("age", post.getAge());
+//                        i.putExtra("treatments", medicalTreatments.getDiagnosis());
                         startActivity(i);
                     }
                 };
-                PostAdapter adapter = new PostAdapter(users, postClickListener);
+                adapter = new PostAdapter(users, postClickListener);
                 recyclerView.setAdapter(adapter);
 
             }
 
             @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
+            public void onFailure(Call<List<Patients>> call, Throwable t) {
             }
         });
     }
 
-    void login() {
 
-//        Map<String, String> fields = new HashMap<>();
-//        fields.put("username", "name");
-//        fields.put("password", "123456");
-//        UserAuth userAuth = new UserAuth("name", "123456");
-//        Call<LoginResponse> call = jsonPlaceHolderApi.login(userAuth);
-//        call.enqueue(new Callback<LoginResponse>() {
-//            @Override
-//            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                LoginResponse loginResponse = response.body();
-//                SessionManager sessionManager = new SessionManager();
-//                sessionManager.saveAuthToken(loginResponse.getAccessToken());
-//
-//                List<Post> posts = new ArrayList<>();
-//                Post post = new Post(1, 2, loginResponse.getUser(), loginResponse.getAccessToken().toString());
-//                posts.add(post);
-//                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
-//                    @Override
-//                    public void onPostClick(Post post, int position) {
-//                        Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
-//                        i.putExtra("id", post.getId());
-//                        i.putExtra("userId", post.getUserId());
-//                        i.putExtra("title", post.getTitle());
-//                        i.putExtra("body", post.getBody());
-//                        startActivity(i);
-//                    }
-//                };
-//                PostAdapter postAdapter = new PostAdapter(posts, postClickListener);
-//                recyclerView.setAdapter(postAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<LoginResponse> call, Throwable t) {
-//
-//            }
-//        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    void updatePost() {
+//        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
+//        List<MedicalTreatments> list = new ArrayList<>();
+//        list.add(medicalTreatments);
+        Patients post = new Patients(2, "name", "surname", "pater", "age", "list");
+        Call<Patients> call = jsonPlaceHolderApi.putPost(1, post);
+        call.enqueue(new Callback<Patients>() {
+            @Override
+            public void onResponse(Call<Patients> call, Response<Patients> response) {
+                if (!response.isSuccessful()) {
+                }
+                Patients users = response.body();
+                List<Patients> list = new ArrayList<>();
+                list.add(users);
+                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
+                    @Override
+                    public void onPostClick(Patients post, int position) {
+                        Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
+                        i.putExtra("id", post.getId());
+                        i.putExtra("userId", post.getSurname());
+                        i.putExtra("title", post.getSurname());
+                        i.putExtra("body", post.getAge());
+                        startActivity(i);
+                    }
+                };
+
+                adapter = new PostAdapter(list, postClickListener);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<Patients> call, Throwable t) {
+
+            }
+        });
 
     }
 

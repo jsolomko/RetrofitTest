@@ -1,71 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="0dp">
 
-    <androidx.gridlayout.widget.GridLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:columnCount="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rowCount="2">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID  "
-            android:textColor="#E91E63" />
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            app:columnCount="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:rowCount="2">
 
-        <TextView
-            android:id="@+id/tv_Id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="#E91E63" />
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID  "
+                android:textColor="#E91E63"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User ID " />
+            <TextView
+                android:id="@+id/tv_Id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#E91E63"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_UserId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Имя"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отчество: "
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Body" />
+            <TextView
+                android:id="@+id/tv_Patronymic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_Body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-    </androidx.gridlayout.widget.GridLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фамилия: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_Surname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Возраст: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_Age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Лечение: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_Treatments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="20sp" />
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

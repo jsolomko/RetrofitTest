@@ -2,9 +2,9 @@ package com.example.mytestretrofit.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,21 +14,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mytestretrofit.R;
-import com.example.mytestretrofit.adapters.PostAdapter;
 import com.example.mytestretrofit.api.JsonPlaceHolderApi;
 import com.example.mytestretrofit.db.PostViewModel;
 import com.example.mytestretrofit.models.LoginResponse;
-import com.example.mytestretrofit.models.Post;
 import com.example.mytestretrofit.models.SessionManager;
 import com.example.mytestretrofit.models.UserAuth;
-
-import org.jetbrains.annotations.NotNull;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -40,7 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     TextView tvLogin;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     String x = "";
@@ -48,16 +51,20 @@ public class LoginActivity extends AppCompatActivity {
     List<LoginResponse> list;
     EditText edName, edPassword;
 
+
     SessionManager sessionManager;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        tvLogin = findViewById(R.id.tv_Login);
+        tvLogin = findViewById(R.id.logIn);
 
         edName = findViewById(R.id.ed_Name);
         edPassword = findViewById(R.id.ed_Password);
+
+        initDrawer();
 
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -94,70 +101,42 @@ public class LoginActivity extends AppCompatActivity {
 //        login();
     }
 
-//    void login() {
-//
-//        Map<String, String> fields = new HashMap<>();
-//        fields.put("username", "name");
-//        fields.put("password", "123456");
-//        UserAuth userAuth = new UserAuth("name", "123456");
-//        Call<LoginResponse> call = jsonPlaceHolderApi.login(userAuth);
-//        call.enqueue(new Callback<LoginResponse>() {
-//            @Override
-//            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                LoginResponse loginResponse = response.body();
-//                SessionManager sessionManager = new SessionManager();
-//                sessionManager.saveAuthToken(loginResponse.getAccessToken());
-//
-//                List<Post> posts = new ArrayList<>();
-//                Post post = new Post(1, 2, loginResponse.getUser(), loginResponse.getAccessToken().toString());
-//                posts.add(post);
-//                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
-//                    @Override
-//                    public void onPostClick(Post post, int position) {
-//
-//                    }
-//                };
-//                tvLogin.setText("loginResponse.getUser()");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<LoginResponse> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-
     public void initLogin(View view) {
 
         UserAuth userAuth = new UserAuth("zyrra", "123456");
-        Call<LoginResponse> call = jsonPlaceHolderApi.login(userAuth);
+        UserAuth userAuth1 = new UserAuth(edName.getText().toString(), edPassword.getText().toString());
+        Call<LoginResponse> call = jsonPlaceHolderApi.login(userAuth1);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.code() == 201) {
+                    LoginResponse loginResponse = response.body();
 
-                LoginResponse loginResponse = response.body();
+                    sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("TOKEN", loginResponse.getAccessToken());
+                    editor.apply();
+                    tvLogin.setText("Успешно! Переадресация на пациентов");
 
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("TOKEN", loginResponse.getAccessToken());
-                editor.apply();
+                } else {
+                    tvLogin.setText("Неправильное имя или пароль");
 
-
-                tvLogin.setText(sharedPreferences.getString("TOKEN","fsd"));
+                }
 
 
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Отказ", Toast.LENGTH_SHORT).show();
             }
         });
 
 
     }
 
-    public void btn_Login(View view) {
+
+    public void btn_get_patients(View view) {
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
     }

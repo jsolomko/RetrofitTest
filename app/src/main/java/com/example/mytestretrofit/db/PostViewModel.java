@@ -5,15 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.example.mytestretrofit.models.Post;
+import com.example.mytestretrofit.models.Patients;
 
 import java.util.List;
 
 public class PostViewModel extends AndroidViewModel {
     private PostRepository postRepository;
-    private final LiveData<List<Post>> mAllPosts;
+    private final LiveData<List<Patients>> mAllPosts;
 
     public PostViewModel(@NonNull Application application) {
         super(application);
@@ -21,11 +20,11 @@ public class PostViewModel extends AndroidViewModel {
         mAllPosts = postRepository.getAllPost();
     }
 
-    LiveData<List<Post>> getAllPost() {
+    LiveData<List<Patients>> getAllPost() {
         return mAllPosts;
     }
 
-    public void insert(Post post) {
+    public void insert(Patients post) {
         postRepository.insert(post);
     }
 }
