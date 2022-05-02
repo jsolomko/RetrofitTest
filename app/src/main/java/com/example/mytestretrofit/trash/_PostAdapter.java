@@ -1,4 +1,4 @@
-package com.example.mytestretrofit.adapters;
+package com.example.mytestretrofit.trash;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,32 +10,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mytestretrofit.models.MedicalTreatments;
-import com.example.mytestretrofit.models.Patient;
-import com.example.mytestretrofit.models.Patients;
 import com.example.mytestretrofit.R;
+import com.example.mytestretrofit.models.Patients;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> implements Filterable {
+public class _PostAdapter extends RecyclerView.Adapter<_PostAdapter.PostViewHolder> implements Filterable {
 
-    List<Patient> postList;
-    MedicalTreatments medicalTreatments;
+    List<Patients> postList;
     //для реализации поиска создает еще один лист
-    List<Patient> postListFull;
+    List<Patients> postListFull;
 
     public interface OnPostClickListener {
-        void onPostClick(Patient post, int position);
+        void onPostClick(Patients post, int position);
     }
 
     private final OnPostClickListener onPostClickListener;
 
-    public PostAdapter(List<Patient> postList, MedicalTreatments treatmentsList, OnPostClickListener onPostClickListener) {
+    public _PostAdapter(List<Patients> postList, OnPostClickListener onPostClickListener) {
         this.postList = postList;
-        this.medicalTreatments = treatmentsList;
         this.onPostClickListener = onPostClickListener;
         //для поиска копируем основной лист, в новый лист
         postListFull = new ArrayList<>(postList);
@@ -65,13 +59,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        Patient post = postList.get(position);
+        Patients post = postList.get(position);
         holder.tvId.setText(String.valueOf(postList.get(position).getId()));
         holder.tvName.setText(String.valueOf(postList.get(position).getName()));
         holder.tvPatronymic.setText(String.valueOf(postList.get(position).getPatronymic()));
         holder.tvSurname.setText(String.valueOf(postList.get(position).getSurname()));
         holder.tvAge.setText(String.valueOf(postList.get(position).getAge()));
-        holder.tvTreatments.setText(String.valueOf(postList.get(position).getTreatmentsSize()));
+        holder.tvTreatments.setText(String.valueOf(postList.get(position).getTreatments()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +90,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private Filter patientsFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<Patient> filterList = new ArrayList<>();
+            List<Patients> filterList = new ArrayList<>();
 
             if (charSequence == null || charSequence.length() == 0) {
                 filterList.addAll(postListFull);
@@ -104,8 +98,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
 
-                for (Patient patients : postListFull) {
-                    if (patients.getName().toLowerCase().contains(filterPattern)) {
+                for (Patients patients : postListFull) {
+                    if (patients.getName().toLowerCase().contains(filterPattern)){
                         filterList.add(patients);
                     }
                 }

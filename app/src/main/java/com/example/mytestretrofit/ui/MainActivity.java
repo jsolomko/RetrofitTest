@@ -21,6 +21,7 @@ import com.example.mytestretrofit.R;
 import com.example.mytestretrofit.adapters.PostAdapter;
 import com.example.mytestretrofit.api.JsonPlaceHolderApi;
 import com.example.mytestretrofit.models.MedicalTreatments;
+import com.example.mytestretrofit.models.Patient;
 import com.example.mytestretrofit.models.Patients;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -56,6 +57,9 @@ public class MainActivity extends BaseActivity {
 
     FloatingActionButton floatingActionButton;
 
+    MedicalTreatments medicalTreatments;
+    List<MedicalTreatments> listTreatments = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,6 @@ public class MainActivity extends BaseActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
 
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -114,34 +117,37 @@ public class MainActivity extends BaseActivity {
 
     void getPost() {
 //        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
-        Call<List<Patients>> call = jsonPlaceHolderApi.getUser();
-        call.enqueue(new Callback<List<Patients>>() {
+        Call<List<Patient>> call = jsonPlaceHolderApi.getUser();
+        call.enqueue(new Callback<List<Patient>>() {
             @Override
-            public void onResponse(Call<List<Patients>> call, Response<List<Patients>> response) {
+            public void onResponse(Call<List<Patient>> call, Response<List<Patient>> response) {
                 if (!response.isSuccessful()) {
                 }
-                List<Patients> users = response.body();
+                List<Patient> users = response.body();
 
                 PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
                     @Override
-                    public void onPostClick(Patients post, int position) {
+                    public void onPostClick(Patient post, int position) {
                         Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
-                        i.putExtra("id", post.getId());
-                        i.putExtra("name", post.getName());
-                        i.putExtra("patronymic", post.getPatronymic());
-                        i.putExtra("surname", post.getSurname());
-                        i.putExtra("age", post.getAge());
-//                        i.putExtra("treatments", medicalTreatments.getDiagnosis());
+                        //Сериализуем обьект Пациент и сохраняем его
+                        i.putExtra(Patient.class.getSimpleName(), post);
+//                        i.putExtra("id", post.getId());
+//                        i.putExtra("name", post.getName());
+//                        i.putExtra("patronymic", post.getPatronymic());
+//                        i.putExtra("surname", post.getSurname());
+//                        i.putExtra("age", post.getAge());
+//                        i.putExtra("treatmentsSize", String.valueOf(post.getTreatmentsSize()));
+//                        i.putExtra("treatments", String.valueOf(post.getId()));
                         startActivity(i);
                     }
                 };
-                adapter = new PostAdapter(users, postClickListener);
+                adapter = new PostAdapter(users, medicalTreatments, postClickListener);
                 recyclerView.setAdapter(adapter);
 
             }
 
             @Override
-            public void onFailure(Call<List<Patients>> call, Throwable t) {
+            public void onFailure(Call<List<Patient>> call, Throwable t) {
             }
         });
     }
@@ -173,42 +179,42 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-    void updatePost() {
-//        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
-//        List<MedicalTreatments> list = new ArrayList<>();
-//        list.add(medicalTreatments);
-        Patients post = new Patients(2, "name", "surname", "pater", "age", "list");
-        Call<Patients> call = jsonPlaceHolderApi.putPost(1, post);
-        call.enqueue(new Callback<Patients>() {
-            @Override
-            public void onResponse(Call<Patients> call, Response<Patients> response) {
-                if (!response.isSuccessful()) {
-                }
-                Patients users = response.body();
-                List<Patients> list = new ArrayList<>();
-                list.add(users);
-                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
-                    @Override
-                    public void onPostClick(Patients post, int position) {
-                        Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
-                        i.putExtra("id", post.getId());
-                        i.putExtra("userId", post.getSurname());
-                        i.putExtra("title", post.getSurname());
-                        i.putExtra("body", post.getAge());
-                        startActivity(i);
-                    }
-                };
-
-                adapter = new PostAdapter(list, postClickListener);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<Patients> call, Throwable t) {
-
-            }
-        });
-
-    }
+//    void updatePost() {
+////        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
+////        List<MedicalTreatments> list = new ArrayList<>();
+////        list.add(medicalTreatments);
+//        Patient post = new Patient(2, "name", "surname", "pater", "age", "list");
+//        Call<Patient> call = jsonPlaceHolderApi.putPost(1, post);
+//        call.enqueue(new Callback<Patient>() {
+//            @Override
+//            public void onResponse(Call<Patient> call, Response<Patient> response) {
+//                if (!response.isSuccessful()) {
+//                }
+//                Patient users = response.body();
+//                List<Patient> list = new ArrayList<>();
+//                list.add(users);
+//                PostAdapter.OnPostClickListener postClickListener = new PostAdapter.OnPostClickListener() {
+//                    @Override
+//                    public void onPostClick(Patients post, int position) {
+//                        Intent i = new Intent(MainActivity.this, SinglePostActivity.class);
+//                        i.putExtra("id", post.getId());
+//                        i.putExtra("userId", post.getSurname());
+//                        i.putExtra("title", post.getSurname());
+//                        i.putExtra("body", post.getAge());
+//                        startActivity(i);
+//                    }
+//                };
+//
+//                adapter = new PostAdapter(list, postClickListener);
+//                recyclerView.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Patients> call, Throwable t) {
+//
+//            }
+//        });
+//
+//    }
 
 }

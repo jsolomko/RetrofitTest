@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/tolbar" />
+<!--    <include-->
+<!--        android:id="@+id/include"-->
+<!--        layout="@layout/tolbar" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_Main"
@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_layout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

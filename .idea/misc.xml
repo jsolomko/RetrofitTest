@@ -15,10 +15,16 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_main.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_new_patient.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_single_post.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_new_treatment.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_single_post.xml" value="0.22" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_splash.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_test.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/activity_treatmen_detail.xml" value="0.33" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/item_action.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/item_layout.xml" value="0.33" />
-        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/item_tretment.xml" value="0.25" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/item_tretment.xml" value="0.5" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/list_group.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/list_item_exp.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/tolbar.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/toolbar_test.xml" value="0.23385416666666667" />
         <entry key="..\:/Users/User/AndroidStudioProjects/RetrofitTest/app/src/main/res/layout/tretment_activity.xml" value="0.29797979797979796" />

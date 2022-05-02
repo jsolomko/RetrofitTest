@@ -17,21 +17,27 @@ public class TreatmentAdapter extends RecyclerView.Adapter<TreatmentAdapter.Trea
     List<MedicalTreatments> medicalTreatmentsList;
 
 
-    public TreatmentAdapter(List<MedicalTreatments> List) {
+    public interface OnTreatmentsListener {
+        void onTreatmentClick(MedicalTreatments medicalTreatment, int position);
+    }
+
+    private final TreatmentAdapter.OnTreatmentsListener onTreatmentsListener;
+
+    public TreatmentAdapter(List<MedicalTreatments> List, OnTreatmentsListener onTreatmentsListener) {
         this.medicalTreatmentsList = List;
+        this.onTreatmentsListener = onTreatmentsListener;
     }
 
 
     public class TreatmentHolder extends RecyclerView.ViewHolder {
-        TextView tvTreatmentId, tvTreatmentDiagnos, tvTreatmentMkb, tvTreatmentCreatedDate;
+        TextView tvTreatmentId, tvTreatmentDiagnosis, tvTreatmentMkb, tvTreatmentCreatedDate;
 
         public TreatmentHolder(@NonNull View itemView) {
             super(itemView);
             tvTreatmentId = itemView.findViewById(R.id.tv_Tretment_Id);
-            tvTreatmentDiagnos = itemView.findViewById(R.id.tv_Tretment_Diagnos);
+            tvTreatmentDiagnosis = itemView.findViewById(R.id.tv_Tretment_Diagnos);
             tvTreatmentMkb = itemView.findViewById(R.id.tv_Tretment_Mkb);
             tvTreatmentCreatedDate = itemView.findViewById(R.id.tv_Tretments_createdAt);
-
         }
     }
 
@@ -44,10 +50,17 @@ public class TreatmentAdapter extends RecyclerView.Adapter<TreatmentAdapter.Trea
 
     @Override
     public void onBindViewHolder(@NonNull TreatmentHolder holder, int position) {
+        MedicalTreatments treatments = medicalTreatmentsList.get(position);
         holder.tvTreatmentId.setText(String.valueOf(medicalTreatmentsList.get(position).getId()));
-        holder.tvTreatmentDiagnos.setText(String.valueOf(medicalTreatmentsList.get(position).getDiagnosis()));
+        holder.tvTreatmentDiagnosis.setText(String.valueOf(medicalTreatmentsList.get(position).getDiagnosis()));
         holder.tvTreatmentMkb.setText(String.valueOf(medicalTreatmentsList.get(position).getMkb()));
         holder.tvTreatmentCreatedDate.setText(String.valueOf(medicalTreatmentsList.get(position).getCreatedAt()).split("T")[0]);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onTreatmentsListener.onTreatmentClick(treatments, holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override

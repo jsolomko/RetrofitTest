@@ -83,7 +83,14 @@ public class TreatmentActivity extends BaseActivity {
             @Override
             public void onResponse(Call<List<MedicalTreatments>> call, Response<List<MedicalTreatments>> response) {
                 List<MedicalTreatments> list = response.body();
-                adapter = new TreatmentAdapter(list);
+                TreatmentAdapter.OnTreatmentsListener onTreatmentsListener = new TreatmentAdapter.OnTreatmentsListener() {
+                    @Override
+                    public void onTreatmentClick(MedicalTreatments medicalTreatment, int position) {
+
+                    }
+                };
+
+                adapter = new TreatmentAdapter(list, onTreatmentsListener);
                 recyclerView.setAdapter(adapter);
             }
 

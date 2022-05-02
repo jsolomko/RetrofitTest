@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
         context = activity.getApplicationContext();
 
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
     }
 
     public void initDrawer() {

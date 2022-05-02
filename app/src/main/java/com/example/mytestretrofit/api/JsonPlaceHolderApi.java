@@ -2,6 +2,7 @@ package com.example.mytestretrofit.api;
 
 import com.example.mytestretrofit.models.LoginResponse;
 import com.example.mytestretrofit.models.MedicalTreatments;
+import com.example.mytestretrofit.models.Patient;
 import com.example.mytestretrofit.models.Patients;
 import com.example.mytestretrofit.models.UserAuth;
 
@@ -23,13 +24,16 @@ import retrofit2.http.Path;
 public interface JsonPlaceHolderApi {
 
     @GET("patients?sort=id,DESC")
-    Call<List<Patients>> getUser();
+    Call<List<Patient>> getUser();
 
     @GET("medicaltreatment")
     Call<List<MedicalTreatments>> getMedicalTreatments();
 
     @POST("patients")
     Call<Patients> createPost(@Body Patients post);
+
+    @POST("medicaltreatment")
+    Call<MedicalTreatments> createTreatment(@Body MedicalTreatments treatment);
 
     @POST("auth/login")
     Call<LoginResponse> login(@Body UserAuth userAuth);

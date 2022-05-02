@@ -14,6 +14,15 @@
         android:theme="@style/Theme.MyTestRetrofit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.TreatmentDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.NewTreatmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.TreatmentActivity"
             android:exported="false" />
         <activity

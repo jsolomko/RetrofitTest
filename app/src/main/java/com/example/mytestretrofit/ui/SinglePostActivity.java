@@ -1,21 +1,25 @@
 package com.example.mytestretrofit.ui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mytestretrofit.R;
+import com.example.mytestretrofit.adapters.TreatmentAdapter;
 import com.example.mytestretrofit.api.JsonPlaceHolderApi;
 import com.example.mytestretrofit.db.PostViewModel;
+import com.example.mytestretrofit.models.Action;
 import com.example.mytestretrofit.models.MedicalTreatments;
-import com.example.mytestretrofit.models.Patients;
+import com.example.mytestretrofit.models.Patient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
@@ -29,22 +33,34 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SinglePostActivity extends AppCompatActivity {
+public class SinglePostActivity extends BaseActivity {
     TextView id, name, surname, age, treatments;
     PostViewModel postViewModel;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     Bundle arguments;
+    Intent i;
+    Intent i2;
+
+    TreatmentAdapter treatmentAdapter;
+    RecyclerView recyclerView;
+    FloatingActionButton fab_new_treatment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_post);
 
+        initDrawer();
+
         id = findViewById(R.id.tv_PostId);
         name = findViewById(R.id.tv_PostName);
         surname = findViewById(R.id.tv_PostSurname);
         age = findViewById(R.id.tv_PostAge);
         treatments = findViewById(R.id.tv_PostTreatments);
+
+        recyclerView = findViewById(R.id.rv_patient_treatment);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fab_new_treatment = findViewById(R.id.fab_treatment);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -80,23 +96,58 @@ public class SinglePostActivity extends AppCompatActivity {
         postViewModel = new ViewModelProvider(this).get(PostViewModel.class);
 
         arguments = getIntent().getExtras();
+
+        Patient patients;
+        MedicalTreatments medicalTreatments;
+        Action action;
         if (arguments != null) {
-            id.setText(String.valueOf(arguments.get("id")));
-            name.setText(String.valueOf(arguments.get("name")));
-            surname.setText(String.valueOf(arguments.get("surname")));
-            age.setText(String.valueOf(arguments.get("age")));
-            treatments.setText(String.valueOf(arguments.get("treatments")));
+            patients = arguments.getParcelable(Patient.class.getSimpleName());
+
+
+            i = new Intent(SinglePostActivity.this, NewTreatmentActivity.class);
+            i.putExtra(Patient.class.getSimpleName(), patients);
+
+            id.setText(String.valueOf(patients.getId()));
+            name.setText(String.valueOf(patients.getName()));
+            surname.setText(String.valueOf(patients.getSurname()));
+            age.setText(String.valueOf(patients.getAge()));
+            treatments.setText(String.valueOf(patients.getTreatmentsSize()));
+
+            TreatmentAdapter.OnTreatmentsListener treatmentsListener = new TreatmentAdapter.OnTreatmentsListener() {
+                @Override
+                public void onTreatmentClick(MedicalTreatments medicalTreatment1, int position) {
+                    i2 = new Intent(SinglePostActivity.this, TreatmentDetailActivity.class);
+                    i2.putExtra(MedicalTreatments.class.getSimpleName(), medicalTreatment1);
+                    i2.putExtra(Patient.class.getSimpleName(), patients);
+                    i2.putExtra(Action.class.getSimpleName(), (Parcelable) medicalTreatment1.getActions());
+                    startActivity(i2);
+                }
+            };
+
+            treatmentAdapter = new TreatmentAdapter(patients.getTreatments(), treatmentsListener);
+            recyclerView.setAdapter(treatmentAdapter);
+
         }
+
+        fab_new_treatment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(i);
+            }
+        });
+
+//        if (arguments != null) {
+//            id.setText(String.valueOf(arguments.get("id")));
+//            name.setText(String.valueOf(arguments.get("name")));
+//            surname.setText(String.valueOf(arguments.get("surname")));
+//            age.setText(String.valueOf(arguments.get("age")));
+//            treatments.setText(String.valueOf(arguments.get("treatmentsSize")));
+//            treatments.setText(String.valueOf(arguments.get("treatments")));
+//        }
+
     }
 
-    //    public void saveToDB(View view) {
-//        id.getText();
-//        Patients post = new Patients(Integer.parseInt(String.valueOf(id.getText())), Integer.parseInt(String.valueOf(userId.getText())),
-//                title.getText().toString(),
-//                body.getText().toString());
-//        postViewModel.insert(post);
-//    }
-//
+
 //    public void createPost(View view) {
 //        Patients patients = new Patients("IVAN3", "PEROV", "HOHLUHOV", "2002-09-12", new MedicalTreatments());
 //
@@ -132,4 +183,15 @@ public class SinglePostActivity extends AppCompatActivity {
             }
         });
     }
+
+    //    public void saveToDB(View view) {
+//        id.getText();
+//        Patients post = new Patients(Integer.parseInt(String.valueOf(id.getText())), Integer.parseInt(String.valueOf(userId.getText())),
+//                title.getText().toString(),
+//                body.getText().toString());
+//        postViewModel.insert(post);
+//    }
+//
+
+
 }

@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
         edName = findViewById(R.id.ed_Name);
         edPassword = findViewById(R.id.ed_Password);
 
-        initDrawer();
+//        initDrawer();
 
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.code() == 201) {
+                if (response.code() == 201 || response.code() == 200) {
                     LoginResponse loginResponse = response.body();
 
                     sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
@@ -117,6 +117,7 @@ public class LoginActivity extends BaseActivity {
                     editor.putString("TOKEN", loginResponse.getAccessToken());
                     editor.apply();
                     tvLogin.setText("Успешно! Переадресация на пациентов");
+                    startActivity(new Intent(LoginActivity.this, SplashActivity.class));
 
                 } else {
                     tvLogin.setText("Неправильное имя или пароль");
