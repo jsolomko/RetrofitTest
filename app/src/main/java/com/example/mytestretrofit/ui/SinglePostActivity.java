@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.example.mytestretrofit.models.Patient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -43,7 +45,7 @@ public class SinglePostActivity extends BaseActivity {
 
     TreatmentAdapter treatmentAdapter;
     RecyclerView recyclerView;
-    FloatingActionButton fab_new_treatment;
+    FloatingActionButton fab_new_treatment, fab_test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class SinglePostActivity extends BaseActivity {
         recyclerView = findViewById(R.id.rv_patient_treatment);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fab_new_treatment = findViewById(R.id.fab_treatment);
+        fab_test = findViewById(R.id.fab_test);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -100,9 +103,12 @@ public class SinglePostActivity extends BaseActivity {
         Patient patients;
         MedicalTreatments medicalTreatments;
         Action action;
+
+
         if (arguments != null) {
             patients = arguments.getParcelable(Patient.class.getSimpleName());
-
+            action = arguments.getParcelable(Action.class.getSimpleName());
+            medicalTreatments = arguments.getParcelable(MedicalTreatments.class.getSimpleName());
 
             i = new Intent(SinglePostActivity.this, NewTreatmentActivity.class);
             i.putExtra(Patient.class.getSimpleName(), patients);
@@ -119,13 +125,26 @@ public class SinglePostActivity extends BaseActivity {
                     i2 = new Intent(SinglePostActivity.this, TreatmentDetailActivity.class);
                     i2.putExtra(MedicalTreatments.class.getSimpleName(), medicalTreatment1);
                     i2.putExtra(Patient.class.getSimpleName(), patients);
-                    i2.putExtra(Action.class.getSimpleName(), (Parcelable) medicalTreatment1.getActions());
+                    i2.putExtra(Action.class.getSimpleName(), medicalTreatment1);
+
+                    List<Action> act = medicalTreatment1.getActions();
+                    for (Action a : act) {
+                        Log.d("MyLog", String.valueOf(a.getPzo()));
+                    }
+
                     startActivity(i2);
                 }
             };
 
             treatmentAdapter = new TreatmentAdapter(patients.getTreatments(), treatmentsListener);
             recyclerView.setAdapter(treatmentAdapter);
+
+            fab_test.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
         }
 
@@ -135,6 +154,7 @@ public class SinglePostActivity extends BaseActivity {
                 startActivity(i);
             }
         });
+
 
 //        if (arguments != null) {
 //            id.setText(String.valueOf(arguments.get("id")));

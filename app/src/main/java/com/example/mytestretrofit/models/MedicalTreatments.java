@@ -4,6 +4,7 @@ package com.example.mytestretrofit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalTreatments implements Parcelable {
@@ -37,11 +38,12 @@ public class MedicalTreatments implements Parcelable {
         this.patient = patient;
     }
 
-    public MedicalTreatments(int id, String diagnosis, String mkb, String createdAt) {
+    public MedicalTreatments(int id, String diagnosis, String mkb, String createdAt, List<Action> actions) {
         this.id = id;
         this.diagnosis = diagnosis;
         this.mkb = mkb;
         this.createdAt = createdAt;
+        this.actions = actions;
     }
 
     public int getId() {
@@ -124,7 +126,9 @@ public class MedicalTreatments implements Parcelable {
             String diagnosis = parcel.readString();
             String mkb = parcel.readString();
             String createdAt = parcel.readString();
-            return new MedicalTreatments(id, diagnosis, mkb, createdAt);
+            List<Action> actionList = new ArrayList<>();
+            parcel.readList(actionList, Action.class.getClassLoader());
+            return new MedicalTreatments(id, diagnosis, mkb, createdAt, actionList);
         }
 
         @Override
@@ -143,6 +147,8 @@ public class MedicalTreatments implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(diagnosis);
         parcel.writeString(mkb);
-        parcel.writeString(getUpdatedAt());
+        parcel.writeString(createdAt);
+        parcel.writeList(actions);
+
     }
 }

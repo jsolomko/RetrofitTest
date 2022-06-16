@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ import com.example.mytestretrofit.api.JsonPlaceHolderApi;
 import com.example.mytestretrofit.models.MedicalTreatments;
 import com.example.mytestretrofit.models.Patient;
 import com.example.mytestretrofit.models.Patients;
+import com.example.mytestretrofit.utils.AppUtilities;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -60,11 +64,14 @@ public class MainActivity extends BaseActivity {
     MedicalTreatments medicalTreatments;
     List<MedicalTreatments> listTreatments = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        toolbar = findViewById(R.id.toolbar);
 
         initDrawer();
 
@@ -74,7 +81,6 @@ public class MainActivity extends BaseActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sharedPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -113,6 +119,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     void getPost() {
@@ -150,6 +157,34 @@ public class MainActivity extends BaseActivity {
             public void onFailure(Call<List<Patient>> call, Throwable t) {
             }
         });
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_profile:
+
+                                break;
+                            case R.id.action_patients:
+                                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                                startActivity(i);
+                                break;
+                            case R.id.action_appointment:
+                                Intent i2 = new Intent(MainActivity.this, TreatmentActivity.class);
+                                startActivity(i2);
+                                break;
+                            case R.id.action_plan:
+
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
     }
 
 
@@ -179,7 +214,8 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-//    void updatePost() {
+
+    //    void updatePost() {
 ////        MedicalTreatments medicalTreatments = new MedicalTreatments(1, "f", "f", "f");
 ////        List<MedicalTreatments> list = new ArrayList<>();
 ////        list.add(medicalTreatments);
@@ -216,5 +252,4 @@ public class MainActivity extends BaseActivity {
 //        });
 //
 //    }
-
 }

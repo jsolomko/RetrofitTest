@@ -102,7 +102,7 @@ public class NewTreatmentActivity extends BaseActivity {
 
         Affiliation affiliation = new Affiliation("ОМС");
         List<Action> actionList = new ArrayList<>();
-        actionList.add(new Action(1, "od", "12.00"));
+//        actionList.add(new Action(1, "od", "12.00",""));
 
 
         MedicalTreatments medicalTreatments = new MedicalTreatments(1, edDiagnosis.getText().toString(), edMKB.getText().toString(), affiliation, patients);

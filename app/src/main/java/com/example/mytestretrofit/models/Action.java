@@ -12,15 +12,20 @@ public class Action implements Parcelable {
     public String eye;
     public String pzo;
     public String appointments;
-    public Integer surgeonId;
+    public int surgeonId;
     public String features;
     public String createdAt;
     public String updatedAt;
 
-    public Action(Integer actiontype_id, String eye, String pzo) {
+    public Action(Integer actiontype_id, String eye, String pzo, String feature, String createdAt, String appointments, int surgId) {
         this.eye = eye;
         this.pzo = pzo;
         this.actiontype_id = actiontype_id;
+        this.features = feature;
+        this.createdAt = createdAt;
+        this.appointments = appointments;
+        this.surgeonId = surgId;
+
     }
 
     public Integer getId() {
@@ -71,7 +76,7 @@ public class Action implements Parcelable {
         this.appointments = appointments;
     }
 
-    public Integer getSurgeonId() {
+    public int getSurgeonId() {
         return surgeonId;
     }
 
@@ -103,14 +108,17 @@ public class Action implements Parcelable {
         this.updatedAt = updatedAt;
     }
 
-
     public static final Creator<Action> CREATOR = new Creator<Action>() {
         @Override
         public Action createFromParcel(Parcel parcel) {
-            int id = parcel.readInt();
+            Integer id = parcel.readInt();
             String eye = parcel.readString();
             String pzo = parcel.readString();
-            return new Action(1, eye, pzo);
+            String feature = parcel.readString();
+            String createdAt = parcel.readString();
+            String appointments = parcel.readString();
+            int surgeonId = parcel.readInt();
+            return new Action(id, eye, pzo, feature, createdAt, appointments,surgeonId);
         }
 
         @Override
@@ -126,6 +134,12 @@ public class Action implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(actiontype_id);
+        parcel.writeString(eye);
+        parcel.writeString(pzo);
+        parcel.writeString(features);
+        parcel.writeString(createdAt);
+        parcel.writeString(appointments);
+        parcel.writeInt(surgeonId);
     }
 }

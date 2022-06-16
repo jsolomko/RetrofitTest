@@ -82,59 +82,48 @@ public class TreatmentDetailActivity extends BaseActivity {
         arguments = getIntent().getExtras();
 
         medicalTreatments = arguments.getParcelable(MedicalTreatments.class.getSimpleName());
-        List<Action> actionList = arguments.getParcelable(Action.class.getSimpleName());
-
-        tvName.setText(patients.getName());
-        tvSurname.setText(patients.getSurname());
-        tvAge.setText(patients.getAge());
-        tvDiagnosis.setText(medicalTreatments.getDiagnosis());
-        tvDate.setText(medicalTreatments.getCreatedAt());
+//        action = arguments.getParcelable(Action.class.getSimpleName());
 
 
+        List<Action> actions = medicalTreatments.getActions();
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
-        //Добавляем данные о пунктах списка:
-        for (Action action : actionList) {
-            listDataHeader.add(action.getPzo());
+        int x = 0;
+        for (Action action : actions) {
+            List<String> actionList = new ArrayList<>();
+            listDataHeader.add("Добавлен: " + action.getCreatedAt().split("T")[0]);
+            actionList.add("Глаз: " + action.getEye());
+            actionList.add("ПЗО: " + action.getPzo());
+            actionList.add("Особенности: " + action.getFeatures());
+            actionList.add("Назначения: " + action.getAppointments());
+            actionList.add("Операция: " + action.getSurgeonId());
+            actionList.add("Дата создания: " + action.getCreatedAt().split("T")[0]);
+            listDataChild.put(listDataHeader.get(x), actionList);
+            x++;
+            Log.d("MyLog", "Size: " + String.valueOf(actionList.size()));
         }
+//        Добавляем данные о пунктах списка:
+//        int x = 0;
+//        for (Action action : actions) {
+//            listDataHeader.add(action.getCreatedAt());
+//            listDataChild.put(listDataHeader.get(x), actionList);
+//            x++;
+//
+//        }
 //        listDataHeader.add(String.valueOf(medicalTreatments.getId()));
-//        listDataHeader.add("Пункт 2");
-//        listDataHeader.add("Пункт 3");
 
-//        List<String> actionList =
 
-        for (MedicalTreatments treatments : patients.medicalTreatments) {
-//            listDataChild.put(listDataHeader, )
-        }
         //Добавляем данные о подпунктах:
-        List<String> top250 = new ArrayList<String>();
-        top250.add("Подпункт 1.1");
-        top250.add("Подпункт 1.2");
-        top250.add("Подпункт 1.3");
-        top250.add("Подпункт 1.4");
-        top250.add("Подпункт 1.5");
-        top250.add("Подпункт 1.6");
-        top250.add("Подпункт 1.7");
+//        for (int i = 0; i <= actionList.size(); i++) {
+//            listDataChild.put(listDataHeader.get(i), actionList);
+//        }
+//
+//           listDataChild.put(listDataHeader.get(0), actionList);
+//           listDataChild.put(listDataHeader.get(2), actionList);
+//           listDataChild.put(listDataHeader.get(3), actionList);
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("Подпункт 2.1");
-        nowShowing.add("Подпункт 2.2");
-        nowShowing.add("Подпункт 2.3");
-        nowShowing.add("Подпункт 2.4");
-        nowShowing.add("Подпункт 2.5");
-        nowShowing.add("Подпункт 2.6");
 
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("Подпункт 3.1");
-        comingSoon.add("Подпункт 3.2");
-        comingSoon.add("Подпункт 3.3");
-        comingSoon.add("Подпункт 3.4");
-        comingSoon.add("Подпункт 3.5");
-
-        listDataChild.put(listDataHeader.get(0), top250);
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
     }
 
 
@@ -148,8 +137,8 @@ public class TreatmentDetailActivity extends BaseActivity {
         tvSurname.setText(patients.getSurname());
         tvAge.setText(patients.getAge());
         tvDiagnosis.setText(medicalTreatments.getDiagnosis());
-        Log.d("MyLog", String.valueOf(medicalTreatments.getCreatedAt()));
-        tvDate.setText(medicalTreatments.getCreatedAt());
+//        Log.d("MyLog", String.valueOf(medicalTreatments.getCreatedAt()));
+        tvDate.setText(medicalTreatments.getCreatedAt().split("T")[0]);
     }
 
     void initConnection() {

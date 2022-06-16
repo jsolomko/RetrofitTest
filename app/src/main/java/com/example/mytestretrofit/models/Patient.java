@@ -23,9 +23,6 @@ public class Patient implements Parcelable {
     public String age;
     public List<MedicalTreatments> medicalTreatments;
 
-    public Patient() {
-    }
-
     //конструктор для Parcelable
     public Patient(String name, String surname, String patronymic, String age) {
         this.name = name;

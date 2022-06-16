@@ -1,5 +1,7 @@
 package com.example.mytestretrofit.api;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.mytestretrofit.models.LoginResponse;
 import com.example.mytestretrofit.models.MedicalTreatments;
 import com.example.mytestretrofit.models.Patient;
@@ -39,7 +41,7 @@ public interface JsonPlaceHolderApi {
     Call<LoginResponse> login(@Body UserAuth userAuth);
 
     @DELETE("patients/{id}")
-    Call<Void> delete(@Path("id")int id);
+    Call<Void> delete(@Path("id") int id);
 
     @FormUrlEncoded
     @POST("auth/login")

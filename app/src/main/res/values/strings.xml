@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Gorgona Mobile</string>
+    <string name="profile">Профиль</string>
+    <string name="patients">Пациенты</string>
+    <string name="appointment">Моя запись</string>
+    <string name="plan">Оперплан</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.example.mytestretrofit.ui;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,6 +78,34 @@ public class TreatmentActivity extends BaseActivity {
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
         getTreatments();
     }
+
+//    void getTreatments() {
+//        LiveData<Call<List<MedicalTreatments>>> call = jsonPlaceHolderApi.getMedicalTreatments();
+//        call.observe(this, new Observer<Call<List<MedicalTreatments>>>() {
+//            @Override
+//            public void onChanged(Call<List<MedicalTreatments>> listCall) {
+//             List<> = jsonPlaceHolderApi.getMedicalTreatments();
+//                call.enqueue(new Callback<List<MedicalTreatments>>() {
+//                    @Override
+//                    public void onResponse(Call<List<MedicalTreatments>> call, Response<List<MedicalTreatments>> response) {
+//                        List<MedicalTreatments> list = response.body();
+//                        TreatmentAdapter.OnTreatmentsListener onTreatmentsListener = new TreatmentAdapter.OnTreatmentsListener() {
+//                            @Override
+//                            public void onTreatmentClick(MedicalTreatments medicalTreatment, int position) {
+//
+//                            }
+//                        };
+//                        adapter = new TreatmentAdapter(list, onTreatmentsListener);
+//                        recyclerView.setAdapter(adapter);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<MedicalTreatments>> call, Throwable t) {
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     void getTreatments() {
         Call<List<MedicalTreatments>> call = jsonPlaceHolderApi.getMedicalTreatments();
